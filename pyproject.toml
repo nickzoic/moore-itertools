@@ -1,0 +1,63 @@
+[project]
+name = 'moore-itertools'
+dynamic = ["version"]
+readme = "README.md"
+authors = [
+    { name = "Nick Moore", email="nick@zoic.org" },
+]
+maintainers = [
+    { name = "Nick Moore", email="nick@zoic.org" },
+]
+description = "Moore Itertools"
+requires-python = ">=3.9"
+license = { text = "BSD-3-Clause" }
+classifiers = [
+    'Development Status :: 2 - Pre-Alpha',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: OS Independent',
+]
+dependencies = [
+]
+
+[project.optional-dependencies]
+dev = [
+    'black<24',
+    'build==0.10.0',
+    'mypy~=1.0.1',
+    'pylint~=2.16',
+    'twine==4.0.2',
+    'pandas-stubs~=2.0.0',
+    'pytest~=7.2',
+]
+
+[tool.setuptools]
+packages = [
+    'moore_itertools',
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "moore_itertools.VERSION" }
+readme = { file = "README.md", content-type="text/markdown" }
+
+[tool.pylint]
+disable = [
+    "consider-using-f-string",
+    "fixme",
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "unused-argument",
+    "invalid-name",
+    "no-else-return",
+    "too-many-ancestors",
+    "too-many-arguments",
+    "too-many-branches",
+    "too-many-instance-attributes",
+    "too-many-locals",
+    "too-many-statements",
+    "too-many-public-methods",
+    "unidiomatic-typecheck",
+]
+
+[tool.black]
+line-length = 100
