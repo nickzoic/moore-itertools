@@ -1,14 +1,20 @@
-def product(gen1, gen2):
-    """Return the cartesian product of two generators, gen1 and gen2,
+from typing import Iterable, Iterator, Tuple, TypeVar
+
+TypeA = TypeVar("A")
+TypeB = TypeVar("B")
+
+
+def product(iterable1: Iterable[A], iterable2: Iterable[B]) -> Iterator[Tuple[A, B]]:
+    """Return the cartesian product of two iterables, iterable1 and iterable2,
     in such a way that either or both can be infinite, or at least very large.
 
-    Values from the generators are memoized until they are no longer needed.
+    Values from the iterables are memoized until they are no longer needed.
     This is good for expensive generators, if your generation is cheap there's
     better ways.
 
     Results are yielded in an arbitrary order:
 
-    >>> sorted(list(product(iter('abc'), iter('1234'))))  # doctest: +NORMALIZE_WHITESPACE
+    >>> sorted(list(product('abc', '1234')))  # doctest: +NORMALIZE_WHITESPACE
     [('a', '1'), ('a', '2'), ('a', '3'), ('a', '4'),
     ('b', '1'), ('b', '2'), ('b', '3'), ('b', '4'),
     ('c', '1'), ('c', '2'), ('c', '3'), ('c', '4')]
@@ -22,10 +28,13 @@ def product(gen1, gen2):
 
     Empty iterators do what you'd expect, even with infinite generators:
 
-    >>> list(product(iter([]), count(0)))
+    >>> list(product([], count(0)))
     []
 
     """
+    gen1 = iter(iterable1)
+    gen2 = iter(iterable2)
+
     # grab the first value off each iterator.  If either are
     # empty, the result is empty so just return.
     try:
