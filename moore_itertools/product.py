@@ -1,7 +1,7 @@
 from typing import Iterable, Iterator, Tuple, TypeVar
 
-TypeA = TypeVar("A")
-TypeB = TypeVar("B")
+A = TypeVar("A")
+B = TypeVar("B")
 
 
 def product(iterable1: Iterable[A], iterable2: Iterable[B]) -> Iterator[Tuple[A, B]]:
