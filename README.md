@@ -1,4 +1,4 @@
-# `moore_itertools` 
+# `moore_itertools`
 
 This exists mostly as a pun on `more_itertools`.
 
