@@ -59,16 +59,20 @@ def product(iterable1: Iterable[A], iterable2: Iterable[B]) -> Iterator[Tuple[A,
             yield from ((val1, val2) for val2 in mem2)
             mem1.append(val1)
         except StopIteration:
+            # gen1 is exhausted, so from here on in we just
+            # take values from gen2 and yield them with the
+            # mem1 values we took from gen1 already.
+
             # mem2 is no longer necessary so throw it away
             # to reduce memory usage.
             del mem2
 
-            # gen1 is exhausted, so from here on in we just
-            # take values from gen2 and yield them with the
-            # mem1 values we took from gen1 already.
-            for val2 in gen2:
-                yield from ((val1, val2) for val1 in mem1)
-            return
+            try:
+                while True:
+                    val2 = next(gen2)
+                    yield from ((val1, val2) for val1 in mem1)
+            except StopIteration:
+                return
 
         # same thing, opposite roles.
         try:
@@ -76,7 +80,13 @@ def product(iterable1: Iterable[A], iterable2: Iterable[B]) -> Iterator[Tuple[A,
             yield from ((val1, val2) for val1 in mem1)
             mem2.append(val2)
         except StopIteration:
+            # gen2 is exhausted, throw away mem1 and take new
+            # values from gen1, combining them with mem2.
             del mem1
-            for val1 in gen1:
-                yield from ((val1, val2) for val2 in mem2)
-            return
+
+            try:
+                while True:
+                    val1 = next(gen1)
+                    yield from ((val1, val2) for val2 in mem2)
+            except StopIteration:
+                return
